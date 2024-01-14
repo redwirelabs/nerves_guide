@@ -4,6 +4,8 @@ layout: home
 nav_order: 1
 ---
 
+# The Redwire Labs Nerves Guide
+
 This is a guide to developing commercial products with [Nerves](https://nerves-project.org/)
 based on the lessons learned by the team at [Redwire Labs](https://www.redwirelabs.com/).
 Product development can be a challenging journey, so we are sharing this
