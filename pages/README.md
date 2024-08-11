@@ -1,58 +1,48 @@
 ---
-title: Development Workstation
+title: Home
+layout: home
+nav_order: 1
 ---
 
-# Development Workstation
+# The Redwire Labs Nerves Guide
 
-The right equipment will help significantly during development. The wrong equipment can be incredibly painful.
+This is a guide to developing commercial products with [Nerves](https://nerves-project.org/)
+based on the lessons learned by the team at [Redwire Labs](https://www.redwirelabs.com/).
+Product development can be a challenging journey, so we are sharing this
+resource with the community so that you can avoid the pitfalls we have seen
+and shortcut the path to success.
 
-## Operating system
+*Redwire Labs is a product development agency that specializes in commercial
+IoT products built with Nerves and Elixir.*
 
-We have standardized on Linux for Nerves development, as well as for firmware development in general. The architecture should be `x86_64` to avoid issues with cross-compilation and host tooling.
+## Why we use Nerves
 
-Linux has become well-supported by many vendors, and provides tools and paradigms that make it easier to develop software. Since Nerves firmware runs embedded Linux, Linux experience can translate between the desktop, server, and embedded.
+In our experience, Nerves has been an excellent technology that expedites the
+development of connected products, and is built on a platform that supports
+robustness and reliability.
 
-The Linux distribution is less critical. The important part is for a developer to be proficient with their Linux environment. For developers who are not yet experienced with Linux, we recommend starting with [Ubuntu Desktop](https://ubuntu.com/download/desktop) due to its wide support and ability to find information about it easily with a web search.
+Nerves is the framework for running an [Elixir](https://elixir-lang.org/)
+application on embedded Linux. It uses [Buildroot](http://buildroot.org/) to
+create a custom Linux system that's tailored to your project and boots the
+system into the application (as process 1), opposed to running a Linux distro,
+which tends to be heavier weight and comes with extra cruft. Nerves also
+provides facilities to update firmware in the field, and an A/B partition scheme
+that allows for rolling back in the case of a failed firmware update.
 
-## Virtualization
+Elixir is used as the main application programming language. From a firmware
+development perspective, this allows developers to reason about the system at a
+higher level, avoiding the need to worry about things like memory management and
+segmentation faults. However, developers still have the low-level tools they
+need to interface with hardware, like bitwise operations. From the perspective
+of developing a connected product, Elixir is a language that can be used for
+both the firmware and backend server, making it easier for developers to
+understand each side of the system. Our full stack engineers are even able to
+develop features in vertical slices through the firmware and backend codebases.
 
-It is a good idea to create the development environment inside of a virtual machine. This offers several benefits:
-
-* Isolation of development data from business software.
-* Isolated networking.
-* Dedicated disk encryption on the virtual machine's virtual drive.
-* Periodic snapshots that can be restored in case of a disaster.
-* Portability to other computers in case of hardware failure or upgrades.
-
-We prefer [VMware Workstation Pro](https://www.vmware.com/products/workstation-pro.html) for virtualization. A free alternative we have had good experience with is [Oracle VirtualBox](https://www.virtualbox.org/), but it is more limited.
-
-## Hardware selection
-
-For application firmware development that does not involve compiling Nerves systems, a computer with above-average specs will likely be sufficient. This will be the case if a platform development team creates the artifacts for an application development team.
-
-For Nerves system development (platform development), we prefer [AMD Threadripper](https://www.amd.com/en/processors/ryzen-threadripper-pro) workstations. These high performance workstations are capable of compiling several Nerves systems per hour from a clean build, significantly reducing the amount of time it takes to iterate through the development of a Nerves system.
-
-### More cores or faster clock?
-
-When looking at Threadripper CPUs, there is a point where you have to choose between significantly more cores at the cost of significantly lower base clock speed. More cores will benefit parallel workloads, whereas a faster clock is better when workloads are single-threaded or don't parallelize well.
-
-So is Nerves system compilation parallel or single-threaded? Well, unfortunately it's a mix of both. Linux and Erlang are packages that support multi-core compilation. A lot of the ancillary packages tend to compile single-threaded.
-
-> ⚠️ **Trap**
->
-> _"I can write a script that compiles the ancillary packages in parallel to utilize the idle cores!"_
->
-> Buildroot already has a setting to enable [parallel builds](https://buildroot.org/downloads/manual/manual.html#top-level-parallel-build). The catch isn't compiling packages in parallel, it's setting up the dependency tree between packages so that the right ones can compile in parallel. Nerves just hasn't been optimized for this yet. It's a topic we occasionally revisit, but in general having the right workstation has mitigated most of this pain point.
-
-The following diagram illustrates the difference between cores and clock speed for the Threadripper Pro 7000 series. For this CPU series, a good balance between cores and clock speed is the 7975WX 32 core 4.0GHz CPU. Also note that as of January 2024, VMware supports passing through a maximum of 32 cores to a virtual machine.
-
-![](development\_workstation/cores\_vs\_base\_clock.png)
-
-| Model  | Cores | Base Clock |
-| ------ | ----- | ---------- |
-| 7945WX | 12    | 4.7        |
-| 7955WX | 16    | 4.5        |
-| 7965WX | 24    | 4.2        |
-| 7975WX | 32    | 4.0        |
-| 7985WX | 64    | 3.2        |
-| 7995WX | 96    | 2.5        |
+The [BEAM VM](https://www.erlang-solutions.com/blog/erlangs-virtual-machine-the-beam/)
+runs the Elixir application, and is known for its use in developing low-latency,
+distributed, and fault-tolerant systems. It also comes with [OTP](https://www.erlang.org/doc/),
+which can be thought of as the standard library. OTP provides much more
+functionality out of the box than most other languages, like [state machines](https://www.erlang.org/doc/man/gen_statem),
+[directed graphs](https://www.erlang.org/doc/man/digraph), and [ETS tables](https://www.erlang.org/doc/man/ets)
+(in-memory database).
