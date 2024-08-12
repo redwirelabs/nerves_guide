@@ -1,3 +1,3 @@
 # Redwire Labs Nerves Guide
 
-- [Just-The-Docs Documenation](https://just-the-docs.com/)
+This guide is hosted at [nerves.redwirelabs.com](https://nerves.redwirelabs.com/)
