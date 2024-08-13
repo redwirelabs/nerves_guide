@@ -8,4 +8,5 @@
 ## Runbooks
 
 * [Authorize SSH key at runtime](runbooks/authorize\_ssh\_key.md)
+* [Naked Phoenix](runbooks/naked-phoenix.md)
 * [Update from a file on the device](runbooks/update\_from\_file\_on\_device.md)
