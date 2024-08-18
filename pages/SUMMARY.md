@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Introduction](README.md)
+* [Config files](config-files.md)
 * [Development workstation](<README (1).md>)
 * [Nerves systems for commercial products](nerves\_systems\_for\_commercial\_development.md)
 * [Serial cable](serial\_cable.md)
